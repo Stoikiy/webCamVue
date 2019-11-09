@@ -93,8 +93,8 @@
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translate(-50%, -10%);
-        width: 960px;
+        transform: translate(-50%, 30%);
+        width: 500px;
     }
 
     #video {
