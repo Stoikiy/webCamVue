@@ -3,6 +3,7 @@
         <section class="webcam-header">
             <img v-if="!isCamActive" src="../assets/main.png" alt="main">
             <div v-show="isCamActive">
+                <img class="face-line" src="../assets/face-line.png" alt="face">
                 <video ref="video" id="video" width="640" height="480" autoplay></video>
                 <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
             </div>
@@ -86,6 +87,14 @@
         flex-direction: column;
         align-items: center;
         margin-top: 50px;
+    }
+
+    .face-line {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -10%);
+        width: 960px;
     }
 
     #video {

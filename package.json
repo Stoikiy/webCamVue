@@ -1,7 +1,7 @@
 {
   "name": "webcam-vue",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -42,5 +42,10 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "description": "vue web-cam test",
+  "main": "index.js",
+  "repository": "https://github.com/Stoikiy/webCamVue",
+  "author": "STOIKIY <mrstoikiy@gmail.com>",
+  "license": "MIT"
 }
