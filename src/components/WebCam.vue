@@ -1,0 +1,97 @@
+<template>
+    <div class="webcam-container">
+        <section class="webcam-header">
+            <img v-if="!isCamActive" src="../assets/main.png" alt="main">
+            <div v-show="isCamActive">
+                <video ref="video" id="video" width="640" height="480" autoplay></video>
+                <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
+            </div>
+        </section>
+        <section  class="webcam-content">
+            <ButtonsHandler
+              :is-cam-active="isCamActive"
+              :captures="captures"
+              @click:openWebCam="openWebCam"
+              @click:clearHistory="clearHistory"
+              @click:capture="capture"
+              @click:closeWebCam="closeWebCam"
+            />
+            <History
+              :captures="captures"
+            />
+        </section>
+    </div>
+</template>
+
+<script>
+
+    import History from "@/components/History";
+    import ButtonsHandler from "@/components/ButtonsHandler";
+
+    export default {
+        name: 'app',
+        components:{ History,ButtonsHandler },
+        data() {
+            return {
+                isCamActive: false,
+                video: {},
+                canvas: {},
+                captures: []
+            }
+        },
+        methods: {
+            openWebCam(){
+                this.video = this.$refs.video;
+                this.isCamActive = true;
+                if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                        this.video.srcObject = stream;
+                        this.video.play();
+                    });
+                }
+            },
+            closeWebCam(){
+               this.video.pause();
+               this.isCamActive = false;
+            },
+            capture() {
+                this.canvas = this.$refs.canvas;
+                this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
+                this.captures.push({
+                    img: this.canvas.toDataURL("image/png"),
+                    id: this.captures.length
+                });
+            },
+            clearHistory(){
+                this.captures = []
+            }
+        },
+    }
+</script>
+
+<style scoped>
+
+    .webcam-container {
+        padding: 20px;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .webcam-header {
+
+    }
+
+    .webcam-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+    }
+
+    #video {
+        background-color: #000000;
+    }
+    #canvas {
+        display: none;
+    }
+</style>
