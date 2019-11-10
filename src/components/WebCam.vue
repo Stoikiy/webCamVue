@@ -30,7 +30,7 @@
     import ButtonsHandler from "@/components/ButtonsHandler";
 
     export default {
-        name: 'app',
+        name: 'WebCam',
         components:{ History,ButtonsHandler },
         data() {
             return {
