@@ -97,4 +97,11 @@
     pointer-events: none;
     opacity: 0.5;
 }
+
+
+@media screen and (max-width: 425px) {
+    .button-handler-container {
+        width: 100%;
+    }
+}
 </style>

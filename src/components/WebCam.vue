@@ -105,4 +105,26 @@
     #canvas {
         display: none;
     }
+
+
+    @media screen and (max-width: 425px) {
+
+        .webcam-header {
+            display: contents;
+        }
+
+        .webcam-header , img {
+            width: 360px;
+        }
+
+        .webcam-header , video {
+            width: 320px;
+            height: 240px;
+        }
+
+        .face-line {
+            transform: translate(-50%, 50%);
+            width: 250px;
+        }
+    }
 </style>
