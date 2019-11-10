@@ -52,8 +52,10 @@
                 }
             },
             closeWebCam(){
-               this.video.pause();
-               this.isCamActive = false;
+                this.video.srcObject.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+                this.isCamActive = false;
             },
             capture() {
                 this.canvas = this.$refs.canvas;
