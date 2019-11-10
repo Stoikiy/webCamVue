@@ -2,6 +2,7 @@
     <div class="webcam-container">
         <section class="webcam-header">
             <img v-if="!isCamActive" src="../assets/main.png" alt="main">
+            <span class="webcam-error" v-if="!isCamOnline && isCamActive"> Camera unavailable </span>
             <div v-show="isCamActive">
                 <img class="face-line" src="../assets/face-line.png" alt="face">
                 <video ref="video" id="video" width="640" height="480" autoplay></video>
@@ -11,6 +12,7 @@
         <section  class="webcam-content">
             <ButtonsHandler
               :is-cam-active="isCamActive"
+              :is-cam-online="isCamOnline"
               :captures="captures"
               @click:openWebCam="openWebCam"
               @click:clearHistory="clearHistory"
@@ -35,6 +37,7 @@
         data() {
             return {
                 isCamActive: false,
+                isCamOnline: undefined,
                 video: {},
                 canvas: {},
                 captures: []
@@ -48,14 +51,20 @@
                     navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
                         this.video.srcObject = stream;
                         this.video.play();
+                        this.isCamOnline = true;
                     });
+                } else {
+                    this.isCamOnline = false;
                 }
             },
             closeWebCam(){
-                this.video.srcObject.getTracks().forEach(function(track) {
-                    track.stop();
-                });
+                if(this.video.srcObject !== null) {
+                    this.video.srcObject.getTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                }
                 this.isCamActive = false;
+                this.isCamOnline = false;
             },
             capture() {
                 this.canvas = this.$refs.canvas;
@@ -81,7 +90,7 @@
     }
 
     .webcam-header {
-
+      position: relative;
     }
 
     .webcam-content {
@@ -91,11 +100,20 @@
         margin-top: 50px;
     }
 
+    .webcam-error {
+        color: white;
+        font-size: 28px;
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translate(-50%);
+    }
+
     .face-line {
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translate(-50%, 30%);
+        transform: translate(-50%, 10%);
         width: 500px;
     }
 
@@ -120,6 +138,11 @@
         .webcam-header , video {
             width: 320px;
             height: 240px;
+        }
+
+        .webcam-error {
+            font-size: 18px;
+            bottom: 65%;
         }
 
         .face-line {

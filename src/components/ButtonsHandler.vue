@@ -21,6 +21,8 @@
         <div v-if="isCamActive" class="buttons">
             <button
               class="button green-button"
+              :class="{'disabled': !isCamOnline }"
+              :disabled="!isCamOnline"
               id="snap"
               @click="$emit('click:capture')"
             >
@@ -44,6 +46,10 @@
             isCamActive: {
                 type: Boolean,
                 default: false,
+            },
+            isCamOnline: {
+                type: Boolean,
+                default: undefined,
             },
             captures:{
                 type: Array,
